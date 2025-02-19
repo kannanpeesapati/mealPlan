@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/food.png'), linear-gradient(135deg, #f4f4f9, #e0e0e0);
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #generate-plan-btn {
+            width: 800px;
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        #generate-plan-btn:hover {
+            background-color: #0056b3;
+        }
+        #meal-plan {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .meal {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .meal:last-child {
+            border-bottom: none;
+        }
+        .meal span {
+            flex-grow: 1;
+            color: #555;
+            text-align: left;
+        }
+        .meal button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .meal button:hover {
+            background-color: #c82333;
+        }
+        .meal strong {
+            display: inline-block;
+            width: 150px;
+        }
+        
+
+        @media (max-width: 600px) {
+            #meal-plan {
+                padding: 10px;
+            }
+            .meal {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .meal button {
+                margin-top: 10px;
+                margin-left: 0;
+                width: 100%;
+                text-align: center;
+            }
+            .meal strong {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Meal Plan</h1>
+    <div id="meal-plan">
+        <div class="meal">
+            <span><strong><i class="fas fa-coffee"></i> Breakfast:</strong> <span id="breakfast"></span></span>
+            <button onclick="removeMeal('breakfast')">Remove</button>
+        </div>
+        <div class="meal">
+            <span><strong><i class="fas fa-apple-alt"></i> Morning Snack:</strong> <span id="morning_snack"></span></span>
+            <button onclick="removeMeal('morning_snack')">Remove</button>
+        </div>
+        <div class="meal">
+            <span><strong><i class="fas fa-utensils"></i> Lunch:</strong> <span id="lunch"></span></span>
+            <button onclick="removeMeal('lunch')">Remove</button>
+        </div>
+        <div class="meal">
+            <span><strong><i class="fas fa-cookie"></i> Evening Snack:</strong> <span id="evening_snack"></span></span>
+            <button onclick="removeMeal('evening_snack')">Remove</button>
+        </div>
+        <div class="meal">
+            <span><strong><i class="fas fa-drumstick-bite"></i>  Dinner:</strong> <span id="dinner"></span></span>
+            <button onclick="removeMeal('dinner')">Remove</button>
+        </div>
+    </div>
+    <button id="generate-plan-btn">Generate Random Plan  <i class="fas fa-random"></i></button>
+
+    <script>
+         const mealPlan = [
+        {"day": 1, "breakfast": "Avocado toast with scrambled eggs & feta + orange juice", "morning_snack": "Apple with peanut butter", "lunch": "Lentil soup with brown rice & sautéed veggies", "evening_snack": "Banana with peanut butter", "dinner": "Spinach and ricotta stuffed pasta"},
+        {"day": 2, "breakfast": "Overnight oats with almond butter, banana, and chia seeds", "morning_snack": "Greek yogurt with honey & walnuts", "lunch": "Mediterranean chickpea salad with feta cheese", "evening_snack": "Roasted almonds and walnuts", "dinner": "Chana dal with brown rice"},
+        {"day": 3, "breakfast": "Masala dosa with coconut chutney + mango lassi", "morning_snack": "Hummus with whole wheat pita", "lunch": "Rajma (kidney beans) with whole wheat roti", "evening_snack": "Greek yogurt with dark chocolate", "dinner": "Mushroom & paneer stir-fry with quinoa"},
+        {"day": 4, "breakfast": "Scrambled tofu with whole grain toast & spinach", "morning_snack": "Boiled eggs with mixed nuts", "lunch": "Pasta with pesto, grilled vegetables & parmesan", "evening_snack": "Protein bar", "dinner": "Greek-style lentil soup with garlic bread"},
+        {"day": 5, "breakfast": "Shakshuka with whole wheat pita", "morning_snack": "Banana with dark chocolate & almonds", "lunch": "Paneer tikka with quinoa and mixed greens", "evening_snack": "Cheese and whole grain crackers", "dinner": "Eggplant parmesan with whole wheat pasta"},
+        {"day": 6, "breakfast": "Greek yogurt with honey, walnuts, and berries", "morning_snack": "Cottage cheese with fresh berries", "lunch": "Thai peanut tofu with jasmine rice", "evening_snack": "Hummus with cucumber slices", "dinner": "Zucchini noodles with tofu and pesto"},
+        {"day": 7, "breakfast": "Whole wheat pancakes with peanut butter & maple syrup", "morning_snack": "Chia seed pudding with dates", "lunch": "Mediterranean falafel bowl with hummus & salad", "evening_snack": "Tofu stir-fry with bell peppers", "dinner": "Stuffed bell peppers with paneer and chickpeas"},
+        {"day": 8, "breakfast": "Poha (flattened rice dish) + masala chai", "morning_snack": "Roasted chickpeas & peanuts", "lunch": "Chana masala with jeera rice", "evening_snack": "Hard-boiled eggs with sea salt", "dinner": "Soba noodle stir-fry with peanut sauce"},
+        {"day": 9, "breakfast": "Besan chilla (chickpea pancakes) with mint chutney", "morning_snack": "Protein smoothie (banana, protein powder, milk)", "lunch": "Eggplant parmesan with whole wheat spaghetti", "evening_snack": "Chia pudding with coconut milk", "dinner": "Mixed vegetable curry with quinoa"},
+        {"day": 10, "breakfast": "Spinach & cheese omelet with sourdough toast", "morning_snack": "Cheese & whole wheat crackers", "lunch": "Vegetable biryani with yogurt raita", "evening_snack": "Fruit salad with nuts", "dinner": "Grilled halloumi and vegetable skewers"},
+        {"day": 11, "breakfast": "Smoothie bowl with granola, flaxseeds, and fresh fruits", "morning_snack": "Mixed nuts & raisins", "lunch": "Mexican-style bean & cheese burrito", "evening_snack": "Dark chocolate with mixed nuts", "dinner": "Vegan lentil stew with sweet potatoes"},
+        {"day": 12, "breakfast": "Whole grain bagel with cream cheese & smoked tofu", "morning_snack": "Cucumber & carrot sticks with tzatziki", "lunch": "Quinoa and black bean salad with avocado", "evening_snack": "Makhana (fox nuts) roasted in ghee", "dinner": "Paneer tikka masala with roti"},
+        {"day": 13, "breakfast": "Oats upma with coconut chutney", "morning_snack": "Dates with almonds & cashews", "lunch": "Stuffed bell peppers with paneer & brown rice", "evening_snack": "Scrambled paneer with toast", "dinner": "Chickpea and avocado salad"},
+        {"day": 14, "breakfast": "Paneer paratha with yogurt & pickle", "morning_snack": "Paneer cubes with chat masala", "lunch": "Chickpea and sweet potato curry with basmati rice", "evening_snack": "Whole wheat toast with almond butter", "dinner": "Mediterranean lentil and feta bowl"},
+        {"day": 15, "breakfast": "Vegan protein smoothie (oats, banana, almond milk, peanut butter)", "morning_snack": "Energy balls (oats, nuts, dates, cocoa)", "lunch": "Lentil and spinach stew with sourdough", "evening_snack": "Cottage cheese with berries", "dinner": "Grilled tofu with roasted vegetables"},
+        {"day": 16, "breakfast": "Mushroom & spinach frittata with whole wheat toast", "morning_snack": "Boiled chickpeas with lemon & salt", "lunch": "Greek-style lentil salad with olives and feta", "evening_snack": "Smoothie with oats, peanut butter, and banana", "dinner": "Dal makhani with brown rice"},
+        {"day": 17, "breakfast": "Nut butter & fruit sandwich on multigrain bread", "morning_snack": "Protein bar", "lunch": "Mushroom risotto with parmesan", "evening_snack": "Chickpeas with lemon and black salt", "dinner": "Mexican-style burrito bowl"},
+        {"day": 18, "breakfast": "Breakfast burrito (eggs, black beans, salsa, cheese)", "morning_snack": "Fruit salad with Greek yogurt", "lunch": "Spinach and ricotta stuffed whole wheat ravioli", "evening_snack": "Cheese and whole wheat toast", "dinner": "Stir-fried quinoa with vegetables and paneer"},
+        {"day": 19, "breakfast": "Idli with sambar & coconut chutney", "morning_snack": "Hard-boiled eggs with avocado slices", "lunch": "Paneer butter masala with whole wheat naan", "evening_snack": "Granola with yogurt", "dinner": "Vegan shepherd’s pie with lentils"},
+        {"day": 20, "breakfast": "Peanut butter banana smoothie with flaxseeds", "morning_snack": "Cheese toast with whole wheat bread", "lunch": "Vegan Buddha bowl with tofu & tahini dressing", "evening_snack": "Almond milk and energy balls", "dinner": "Baked sweet potatoes with chickpeas"},
+        {"day": 21, "breakfast": "Chia pudding with almond milk, honey & blueberries", "morning_snack": "Dark chocolate & walnuts", "lunch": "Stir-fried soba noodles with peanut sauce", "evening_snack": "Roasted pumpkin seeds", "dinner": "Chickpea and spinach stew with garlic bread"},
+        {"day": 22, "breakfast": "Muesli with Greek yogurt, nuts, and raisins", "morning_snack": "Roasted makhana (fox nuts)", "lunch": "Dal tadka with basmati rice & papad", "evening_snack": "Whole wheat veggie sandwich", "dinner": "Roasted cauliflower and chickpea curry"},
+        {"day": 23, "breakfast": "Scrambled paneer with whole wheat toast", "morning_snack": "Banana smoothie with peanut butter", "lunch": "Avocado and black bean tacos with salsa", "evening_snack": "Peanut butter protein balls", "dinner": "Stuffed eggplant with quinoa"},
+        {"day": 24, "breakfast": "Savory quinoa porridge with nuts & yogurt", "morning_snack": "Granola with almond milk", "lunch": "Halloumi and quinoa salad with lemon dressing", "evening_snack": "Greek yogurt with walnuts and honey", "dinner": "Grilled tempeh with mashed potatoes"},
+        {"day": 25, "breakfast": "Ragi (finger millet) porridge with honey & seeds", "morning_snack": "Oats & peanut butter cookies", "lunch": "Mediterranean grilled vegetable platter with hummus", "evening_snack": "Paneer cubes with black salt", "dinner": "Black bean tacos with guacamole"},
+        {"day": 26, "breakfast": "Cheese & veggie-stuffed whole wheat crepes","morning_snack":"Roasted pumpkin & sunflower seeds","lunch": "Szechuan tofu with steamed jasmine rice","evening_snack": "Cottage cheese toast","dinner": "Lentil and mushroom shepherd’s pie"},
+        {"day": 27, "breakfast": "Millet upma with coconut & curry leaves","morning_snack":"Tofu stir-fry with sesame seeds","lunch": "Vegetable paella with chickpeas","evening_snack": "Dark chocolate with cashews","dinner": "Thai coconut curry with tofu"},
+        {"day": 28, "breakfast": "Almond flour waffles with strawberries & maple syrup","morning_snack":"Yogurt with dark chocolate chips","lunch": "Creamy tomato soup with grilled cheese sandwich","evening_snack": "Roasted chickpeas","dinner": "Mediterranean orzo salad"},
+        {"day": 29, "breakfast": "Mediterranean hummus toast with cherry tomatoes & olives","morning_snack":"Nut butter toast with banana slices","lunch": "Stir-fried vegetables with cashew and brown rice","evening_snack": "Tofu and veggie stir-fry","dinner": "Roasted vegetable lasagna"},
+        {"day": 30, "breakfast": "Egg & avocado whole wheat wrap","morning_snack":"Scrambled paneer with toast","lunch": "Moroccan chickpea and lentil stew","evening_snack": "Nut butter toast","dinner": "Spinach and chickpea curry"}
+        ];
+
+        const usedMeals = {
+            breakfast: new Set(),
+            morning_snack: new Set(),
+            lunch: new Set(),
+            evening_snack: new Set(),
+            dinner: new Set()
+        };
+
+        function removeMeal(mealType) {
+            const mealElement = document.getElementById(mealType);
+            usedMeals[mealType].add(mealElement.innerText);
+            mealElement.innerText = 'You already consumed this meal; please try a new one';
+        }
+
+        document.getElementById('generate-plan-btn').addEventListener('click', function() {
+            const randomDay = mealPlan[Math.floor(Math.random() * mealPlan.length)];
+            if (!usedMeals.breakfast.has(randomDay.breakfast)) {
+                document.getElementById('breakfast').innerText = randomDay.breakfast;
+            }
+            if (!usedMeals.morning_snack.has(randomDay.morning_snack)) {
+                document.getElementById('morning_snack').innerText = randomDay.morning_snack;
+            }
+            if (!usedMeals.lunch.has(randomDay.lunch)) {
+                document.getElementById('lunch').innerText = randomDay.lunch;
+            }
+            if (!usedMeals.evening_snack.has(randomDay.evening_snack)) {
+                document.getElementById('evening_snack').innerText = randomDay.evening_snack;
+            }
+            if (!usedMeals.dinner.has(randomDay.dinner)) {
+                document.getElementById('dinner').innerText = randomDay.dinner;
+            }
+        });
+
+    </script>
+</body>
+</html>
